@@ -1,48 +1,4 @@
-pub struct Params {
-    q: String,
-    salt: String,
-    from: String,
-    to: String,
-    appKey: String,
-    sign: String,
-    signType: String,
-    curtime: u64,
-    ext: Option<String>,
-    voice: Option<String>,
-    strict: Option<bool>,
-    vocabld: Option<String>,
-}
-
-struct BasicObj {
-    explains: Vec<String>,
-}
-
-struct WebItem {
-    key: String,
-    value: Vec<String>,
-}
-
-struct DictObj {
-    url: String,
-}
-
-struct WebDictObj {
-    url: String,
-}
-
-pub struct TransformRes {
-    errorCode: String,
-    query: String,
-    translation: Vec<String>,
-    basic: Option<BasicObj>,
-    web: Option<WebItem>,
-    l: String,
-    dict: DictObj,
-    webdict: WebDictObj,
-    tSpeakUrl: String,
-    speakUrl: String,
-    returnPhrase: Vec<String>,
-}
+use crate::model::{Params, TransformRes};
 
 fn generate_param_input(q: String) -> String {
     if (q.len() <= 20) {
