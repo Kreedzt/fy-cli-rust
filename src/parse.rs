@@ -1,4 +1,5 @@
 use crate::model::{Params, TransformRes};
+use sha2::Digest;
 use sha2::Sha256;
 
 fn generate_param_input(q: String) -> String {
@@ -19,14 +20,14 @@ pub fn generate_param(user_input: String, app_key: String, app_secure: String) -
     let source_sign = format!(
         "{}{}{}{}{}",
         app_key,
-        generate_param_input(user_input),
+        generate_param_input(user_input.clone()),
         salt,
         curtime,
         app_secure
     );
     let mut hasher = Sha256::new();
     hasher.update(source_sign.as_bytes());
-    let sign = hasher.finalize();
+    let sign: String = format!("{:X}", hasher.finalize());
 
     Params {
         q: user_input,
