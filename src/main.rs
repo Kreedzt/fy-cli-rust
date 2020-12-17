@@ -1,8 +1,6 @@
 use fy_cli_rust::key::get_user_key;
 use fy_cli_rust::model::TransformRes;
 use fy_cli_rust::parse::{display_res, generate_param, get_user_input};
-// use crate::utils::parse::display_res;
-// use std::collections::HashMap;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -15,7 +13,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let params = generate_param(input, user_key.appKey, user_key.appSecure);
     println!("params: {:?}", params);
 
-    println!("main fn effected");
     let client = reqwest::Client::new();
     let resp = client
         .post("https://openapi.youdao.com/api")
