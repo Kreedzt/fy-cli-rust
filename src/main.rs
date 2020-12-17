@@ -1,4 +1,5 @@
 use fy_cli_rust::key::get_user_key;
+use fy_cli_rust::model::TransformRes;
 use fy_cli_rust::parse::{generate_param, get_user_input};
 // use crate::utils::parse::display_res;
 // use std::collections::HashMap;
@@ -13,12 +14,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let params = generate_param(input, user_key.appKey, user_key.appSecure);
     println!("params: {:?}", params);
-    
+
     println!("main fn effected");
-    // let resp = reqwest::get("https://httpbin.org/ip")
-    //     .await?
-    //     .json::<HashMap<String, String>>()
-    //     .await?;
-    // println!("{:#?}", resp);
+    let client = reqwest::Client::new();
+    let params = [("foo", "bar"), ("baz", "quux")];
+    let resp = client
+        .post("https://openapi.youdao.com/api")
+        .form(&params)
+        .send()
+        .await?
+        .json::<TransformRes>()
+        .await?;
+    println!("{:#?}", resp);
     Ok(())
 }

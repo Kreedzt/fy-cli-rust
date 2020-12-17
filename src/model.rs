@@ -1,3 +1,5 @@
+use serde::{Serialize, Deserialize};
+
 #[derive(Debug)]
 pub struct Params {
     pub q: String,
@@ -14,35 +16,40 @@ pub struct Params {
     pub vocabld: Option<String>,
 }
 
+#[derive(Deserialize, Debug)]
 pub struct BasicObj {
     pub explains: Vec<String>,
 }
 
+#[derive(Deserialize, Debug)]
 pub struct WebItem {
     pub key: String,
     pub value: Vec<String>,
 }
 
+#[derive(Deserialize, Debug)]
 struct DictObj {
     url: String,
 }
 
+#[derive(Deserialize, Debug)]
 struct WebDictObj {
     url: String,
 }
 
+#[derive(Deserialize, Debug)]
 pub struct TransformRes {
     pub errorCode: String,
-    pub query: String,
-    translation: Vec<String>,
+    pub query: Option<String>,
+    translation: Option<Vec<String>>,
     pub basic: Option<BasicObj>,
     pub web: Option<WebItem>,
     l: String,
-    dict: DictObj,
-    webdict: WebDictObj,
-    tSpeakUrl: String,
-    speakUrl: String,
-    returnPhrase: Vec<String>,
+    dict: Option<DictObj>,
+    webdict: Option<WebDictObj>,
+    tSpeakUrl: Option<String>,
+    speakUrl: Option<String>,
+    returnPhrase: Option<Vec<String>>,
 }
 
 #[derive(Debug)]

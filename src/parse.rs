@@ -32,7 +32,9 @@ pub fn generate_param(user_input: String, app_key: String, app_secure: String) -
 }
 
 pub fn display_res(res: TransformRes) {
-    println!("{}", res.query);
+    if let Some(q) = res.query {
+        println!("{}", q);
+    }
 
     if let Some(k) = res.basic {
         println!("基础释义:");
