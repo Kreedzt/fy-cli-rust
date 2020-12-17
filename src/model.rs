@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 
-#[derive(Debug)]
+#[derive(Serialize, Debug)]
 pub struct Params {
     pub q: String,
     pub salt: String,
@@ -52,8 +52,17 @@ pub struct TransformRes {
     returnPhrase: Option<Vec<String>>,
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct UserKey {
     pub appKey: String,
     pub appSecure: String,
+}
+
+impl UserKey {
+    pub fn new() -> Self {
+        UserKey {
+            appKey: String::new(),
+            appSecure: String::new()
+        }
+    }
 }

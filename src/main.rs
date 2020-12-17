@@ -1,6 +1,6 @@
 use fy_cli_rust::key::get_user_key;
 use fy_cli_rust::model::TransformRes;
-use fy_cli_rust::parse::{generate_param, get_user_input};
+use fy_cli_rust::parse::{display_res, generate_param, get_user_input};
 // use crate::utils::parse::display_res;
 // use std::collections::HashMap;
 
@@ -9,7 +9,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let input = get_user_input();
     println!("input: {}", input);
 
-    let user_key = get_user_key();
+    let user_key = get_user_key()?;
     println!("user_key: {:?}", user_key);
 
     let params = generate_param(input, user_key.appKey, user_key.appSecure);
@@ -17,7 +17,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("main fn effected");
     let client = reqwest::Client::new();
-    let params = [("foo", "bar"), ("baz", "quux")];
     let resp = client
         .post("https://openapi.youdao.com/api")
         .form(&params)
@@ -25,6 +24,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?
         .json::<TransformRes>()
         .await?;
-    println!("{:#?}", resp);
+
+    if resp.errorCode != "0" {
+        println!("Error: {:#?}", resp);
+    } else {
+        println!("Success: {:#?}", resp);
+        display_res(resp);
+    }
+
     Ok(())
 }

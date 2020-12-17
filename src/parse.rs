@@ -8,7 +8,7 @@ fn generate_param_input(q: String) -> String {
 }
 
 pub fn get_user_input() -> String {
-    generate_param_input("".to_string())
+    generate_param_input("Apple".to_string())
 }
 
 pub fn generate_param(user_input: String, app_key: String, app_secure: String) -> Params {
