@@ -1,6 +1,7 @@
 use crate::model::{Params, TransformRes};
-use sha2::Digest;
-use sha2::Sha256;
+use sha2::{Digest, Sha256};
+use std::time::{SystemTime, UNIX_EPOCH};
+use uuid::Uuid;
 
 fn generate_param_input(q: String) -> String {
     if (q.len() <= 20) {
@@ -14,8 +15,15 @@ pub fn get_user_input() -> String {
 }
 
 pub fn generate_param(user_input: String, app_key: String, app_secure: String) -> Params {
-    let salt = "zz".to_string();
-    let curtime = 1;
+    let salt = format!("{}", Uuid::new_v4());
+    let curtime = format!(
+        "{}",
+        SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+    );
+    println!("curtime: {:?}", curtime);
 
     let source_sign = format!(
         "{}{}{}{}{}",
