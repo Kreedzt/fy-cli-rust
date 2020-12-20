@@ -1,8 +1,7 @@
-use crate::key::set_user_key;
 use crate::model::{Params, TransformRes, UserRes};
-use clap::{App, Arg, ArgMatches};
+use clap::{App, Arg};
 use sha2::{Digest, Sha256};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::SystemTime;
 use uuid::Uuid;
 
 fn generate_param_input(q: String) -> String {
@@ -24,7 +23,7 @@ pub fn get_user_way() -> Result<(UserRes, Vec<String>), ()> {
                 .long("config")
                 .max_values(2)
                 .min_values(2)
-                .about("设置密钥, 格式: appKey appSecure")
+                .about("设置密钥, 格式: app_key app_secure")
                 .required(false)
                 .takes_value(true)
                 .conflicts_with("content"),
@@ -40,7 +39,7 @@ pub fn get_user_way() -> Result<(UserRes, Vec<String>), ()> {
 
     if let Some(config_kv) = matches.values_of("config") {
         let v: Vec<String> = config_kv.into_iter().map(|s| s.to_string()).collect();
-        return Ok((UserRes::SET_KEY, v));
+        return Ok((UserRes::SETKEY, v));
     }
 
     if let Some(input) = matches.value_of("content") {
@@ -83,9 +82,9 @@ pub fn generate_param(user_input: String, app_key: String, app_secure: String) -
         salt,
         from: "auto".to_string(),
         to: "auto".to_string(),
-        appKey: app_key,
+        app_key,
         sign,
-        signType: "v3".to_string(),
+        sign_type: "v3".to_string(),
         curtime,
         ..Params::default()
     }

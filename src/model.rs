@@ -4,7 +4,7 @@ use std::default::Default;
 // 交互的响应
 pub enum UserRes {
     QUERY,
-    SET_KEY
+    SETKEY
 }
 
 #[derive(Serialize, Debug)]
@@ -13,9 +13,11 @@ pub struct Params {
     pub salt: String,
     pub from: String,
     pub to: String,
-    pub appKey: String,
+    #[serde(rename = "appKey")]
+    pub app_key: String,
     pub sign: String,
-    pub signType: String,
+    #[serde(rename = "signType")]
+    pub sign_type: String,
     pub curtime: String,
     pub ext: Option<String>,
     pub voice: Option<String>,
@@ -30,9 +32,9 @@ impl Default for Params {
             salt: String::new(),
             from: "auto".to_string(),
             to: "auto".to_string(),
-            appKey: String::new(),
+            app_key: String::new(),
             sign: String::new(),
-            signType: "v3".to_string(),
+            sign_type: "v3".to_string(),
             curtime: String::new(),
             ext: None,
             voice: None,
@@ -65,7 +67,8 @@ struct WebDictObj {
 
 #[derive(Deserialize, Debug)]
 pub struct TransformRes {
-    pub errorCode: String,
+    #[serde(rename = "errorCode")]
+    pub error_code: String,
     pub query: Option<String>,
     translation: Option<Vec<String>>,
     pub basic: Option<BasicObj>,
@@ -73,22 +76,25 @@ pub struct TransformRes {
     l: String,
     dict: Option<DictObj>,
     webdict: Option<WebDictObj>,
-    tSpeakUrl: Option<String>,
-    speakUrl: Option<String>,
-    returnPhrase: Option<Vec<String>>,
+    #[serde(rename = "tSpeakUrl")]
+    t_speak_url: Option<String>,
+    #[serde(rename = "speakUrl")]
+    speak_url: Option<String>,
+    #[serde(rename = "returnPhrase")]
+    return_phrase: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserKey {
-    pub appKey: String,
-    pub appSecure: String,
+    pub app_key: String,
+    pub app_secure: String,
 }
 
 impl Default for UserKey {
     fn default() -> Self {
         UserKey {
-            appKey: String::new(),
-            appSecure: String::new(),
+            app_key: String::new(),
+            app_secure: String::new(),
         }
     }
 }

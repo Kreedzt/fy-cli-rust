@@ -7,7 +7,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let way = get_user_way().unwrap();
 
     match way.0 {
-        UserRes::SET_KEY => {
+        UserRes::SETKEY => {
             set_user_key(way.1);
             return Ok(())
         },
@@ -18,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let user_key = get_user_key()?;
 
-    let params = generate_param(input, user_key.appKey, user_key.appSecure);
+    let params = generate_param(input, user_key.app_key, user_key.app_secure);
 
     let client = reqwest::Client::new();
     let resp = client
@@ -29,7 +29,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .json::<TransformRes>()
         .await?;
 
-    if resp.errorCode != "0" {
+    if resp.error_code != "0" {
         println!("Error: {:#?}", resp);
     } else {
         // println!("Success: {:#?}", resp);

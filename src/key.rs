@@ -19,16 +19,16 @@ pub fn get_user_key() -> Result<UserKey, Box<dyn std::error::Error + 'static>> {
 }
 
 pub fn set_user_key(app_kv: Vec<String>) {
-    let appKey = app_kv.get(0).unwrap().clone();
-    let appSecure = app_kv.get(1).unwrap().clone();
+    let app_key = app_kv.get(0).unwrap().clone();
+    let app_secure = app_kv.get(1).unwrap().clone();
     if let Some(mut p) = home_dir() {
         let s = UserKey {
-            appKey,
-            appSecure,
+            app_key,
+            app_secure,
         };
         let json = serde_json::to_string(&s).unwrap();
         p.push(CONFIG_FILE_NAME);
         fs::write(p, json).unwrap();
-        println!("设置成功, appKey: {}, appSecure: {}", s.appKey, s.appSecure);
+        println!("设置成功, app_key: {}, app_secure: {}", s.app_key, s.app_secure);
     }
 }
