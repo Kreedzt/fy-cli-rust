@@ -1,6 +1,12 @@
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
+// 交互的响应
+pub enum UserRes {
+    QUERY,
+    SET_KEY
+}
+
 #[derive(Serialize, Debug)]
 pub struct Params {
     pub q: String,
@@ -72,7 +78,7 @@ pub struct TransformRes {
     returnPhrase: Option<Vec<String>>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct UserKey {
     pub appKey: String,
     pub appSecure: String,

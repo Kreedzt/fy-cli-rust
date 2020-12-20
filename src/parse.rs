@@ -1,4 +1,6 @@
-use crate::model::{Params, TransformRes};
+use crate::key::set_user_key;
+use crate::model::{Params, TransformRes, UserRes};
+use clap::{App, Arg, ArgMatches};
 use sha2::{Digest, Sha256};
 use std::time::{SystemTime, UNIX_EPOCH};
 use uuid::Uuid;
@@ -10,9 +12,48 @@ fn generate_param_input(q: String) -> String {
     format!("{}{}{}", &q[..10], q.len(), &q[q.len() - 10..])
 }
 
-// TODO
-pub fn get_user_input() -> String {
-    generate_param_input("Apple".to_string())
+// 获取交互方式
+pub fn get_user_way() -> Result<(UserRes, Vec<String>), ()> {
+    let matches = App::new("fy-cli-rust")
+        .version("0.1")
+        .author("Kreedzt <zhaozisong1@live.com>")
+        .about("使用有道翻译 api 进行翻译")
+        .arg(
+            Arg::new("config")
+                .short('c')
+                .long("config")
+                .max_values(2)
+                .min_values(2)
+                .about("设置密钥, 格式: appKey appSecure")
+                .required(false)
+                .takes_value(true)
+                .conflicts_with("content"),
+        )
+        .arg(
+            Arg::new("content")
+                .about("待翻译的内容")
+                .required_unless_present("config"),
+        )
+        .get_matches();
+
+    // println!("matches: {:?}", matches);
+
+    if let Some(config_kv) = matches.values_of("config") {
+        let v: Vec<String> = config_kv.into_iter().map(|s| s.to_string()).collect();
+        return Ok((UserRes::SET_KEY, v));
+    }
+
+    if let Some(input) = matches.value_of("content") {
+        let mut v = Vec::with_capacity(1);
+        v.push(input.to_string());
+        return Ok((UserRes::QUERY, v));
+    }
+
+    Err(())
+}
+
+pub fn get_user_input(s: String) -> String {
+    generate_param_input(s)
 }
 
 pub fn generate_param(user_input: String, app_key: String, app_secure: String) -> Params {
@@ -24,7 +65,6 @@ pub fn generate_param(user_input: String, app_key: String, app_secure: String) -
             .unwrap()
             .as_secs()
     );
-    println!("curtime: {:?}", curtime);
 
     let source_sign = format!(
         "{}{}{}{}{}",
