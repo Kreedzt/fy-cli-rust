@@ -5,10 +5,11 @@ use std::time::SystemTime;
 use uuid::Uuid;
 
 fn generate_param_input(q: String) -> String {
-    if q.len() <= 20 {
+    let len = q.len();
+    if len <= 20 {
         return q;
     }
-    format!("{}{}{}", &q[..10], q.len(), &q[q.len() - 10..])
+    format!("{}{}{}", &q[..10], len, &q[(len - 10)..len])
 }
 
 // 获取交互方式
