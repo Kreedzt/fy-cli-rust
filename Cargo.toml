@@ -5,10 +5,16 @@ authors = ["Kreedzt <zhaozisong1@live.com>"]
 edition = "2018"
 readme = "README.md"
 repository = "https://github.com/Kreedzt/fy-cli-rust"
+homepage = "https://github.com/Kreedzt/fy-cli-rust"
 license = "MIT"
 license-file = "LICENSE"
-description = "Rust 命令行翻译工具(使用有道 API)"
-keywords = ["翻译", "cli", "命令行", "有道"]
+description = "youdao api translation tool"
+keywords = ["translation", "cli", "tool", "youdao"]
+
+[[bin]]
+bench = false
+path = "src/main.rs"
+name = "fy"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
