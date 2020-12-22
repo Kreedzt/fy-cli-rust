@@ -16,13 +16,13 @@ cargo install fy-cli-rust
 1. 通过 `--config` 或 `-c` 设置应用ID与密钥
 
 ```sh
-fy-cli-rust -c key secure
+fy -c key secure
 ```
 
 2. 直接输入单词翻译
 
 ```sh
-fy-cli-rust apple
+fy apple
 ```
 
 ## 构建
