@@ -6,12 +6,9 @@ use fy_cli_rust::parse::{display_res, generate_param, get_user_input, get_user_w
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let way = get_user_way().unwrap();
 
-    match way.0 {
-        UserRes::SETKEY => {
-            set_user_key(way.1);
-            return Ok(())
-        },
-        _ => {}
+    if let UserRes::SETKEY = way.0 {
+        set_user_key(way.1);
+        return Ok(())
     }
     
     let input = get_user_input(way.1.get(0).unwrap().clone());

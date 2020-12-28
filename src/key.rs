@@ -1,9 +1,8 @@
 use crate::model::UserKey;
 use dirs::home_dir;
-use serde_json;
 use std::fs;
 
-const CONFIG_FILE_NAME: &'static str = "rfy_config.json";
+const CONFIG_FILE_NAME: &str = "rfy_config.json";
 
 pub fn get_user_key() -> Result<UserKey, Box<dyn std::error::Error + 'static>> {
     match home_dir() {
